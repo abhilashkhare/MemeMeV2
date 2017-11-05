@@ -23,51 +23,45 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var topText: UITextField!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
   
+    @IBOutlet weak var bottomText: UITextField!
     
-    @IBOutlet weak var BottomText: UITextField!
+    let memeTextAttribute : [String : Any] = [ // MARK: TODO - need improvement, black outline, white text
+        // NSAttributedStringKey.strokeColor.rawValue : UIColor.black,
+        //  NSAttributedStringKey.backgroundColor.rawValue : UIColor.black,
+        NSAttributedStringKey.foregroundColor.rawValue : UIColor.white,
+        
+        
+        NSAttributedStringKey.font.rawValue : UIFont.init(name: "HelveticaNeue-CondensedBlack", size: 20)!
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        topText.text = "TOP"
-        BottomText.text = "BOTTOM"
         
-        
-        let memeTextAttribute : [String : Any] = [
-           // NSAttributedStringKey.strokeColor.rawValue : UIColor.black,
-          //  NSAttributedStringKey.backgroundColor.rawValue : UIColor.black,
-            NSAttributedStringKey.foregroundColor.rawValue : UIColor.white,
-            
-            
-            NSAttributedStringKey.font.rawValue : UIFont.init(name: "HelveticaNeue-CondensedBlack", size: 20)!
-        ]
-        
-        topText.defaultTextAttributes = memeTextAttribute
-        BottomText.defaultTextAttributes = memeTextAttribute
-        topText.textAlignment = .center
-        BottomText.textAlignment = .center
-        
-         //func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+        topText.text = "TOP"        // MARK: TODO - move to somewhere more appropriate
+        bottomText.text = "BOTTOM"  // MARK: TODO - move to somewhere more appropriate
       
-      //  func textField(_ <#T##textField: UITextField##UITextField#>, shouldChangeCharactersIn range: NSRange, replacementString string: String)
-        //    -> Bool
-        //{
-          //  var newText = textField.text! as NSString
-            
-            //newText = newText.replacingCharacters(in: range, with: string) as NSString
-            //return true
-        //}
+        topText.defaultTextAttributes = memeTextAttribute
+        bottomText.defaultTextAttributes = memeTextAttribute
+        topText.textAlignment = .center
+        bottomText.textAlignment = .center
+        topText.delegate = self
+        bottomText.delegate = self
+      
+//             func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String)
+//            -> Bool
+//        {
+//            var newText = textField.text! as NSString
+//
+//            newText = newText.replacingCharacters(in: range, with: string) as NSString
+//            return true
+//        }
         
-        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            textField.resignFirstResponder()
-            
-            return true;
-        }
-
   
     }
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(true)
+        
         cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -82,9 +76,12 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         super.viewWillDisappear(true)
         
+        print("")
+        print("In  ViewController.viewWillDisappear()")
+        //IsFirstResponder in UIView if ui
          NotificationCenter.default.removeObserver(self,  name: NSNotification.Name.UIKeyboardWillShow, object: nil)
          NotificationCenter.default.removeObserver(self,  name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
+
         
     }
     
@@ -95,7 +92,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     {
         
         let keyboardSize = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue
-        self.view.frame.origin.y -= (keyboardSize?.cgRectValue.height)!
+       self.view.frame.origin.y -= (keyboardSize?.cgRectValue.height)!
         
         
         
@@ -107,7 +104,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
     {
         
-        let keyboardSize = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue
+    let keyboardSize = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue
         self.view.frame.origin.y += (keyboardSize?.cgRectValue.height)!
         
         
@@ -146,7 +143,18 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
            //let meme = Meme(topTextField : topText.text!, bottomTextField : BottomText.text!, originalimage : //imageDisplay.image!, memedImage : memedImage!)
   //  }
         
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        print("")
+        print("In  ViewController.textFieldShouldReturn()")
+        
+        
+        textField.resignFirstResponder()
+        
+        return true;
+    }
     
+
     
 }
 
