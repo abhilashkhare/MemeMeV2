@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,7 +35,7 @@
                                 </items>
                             </toolbar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pfP-dO-iZ7">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="480"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KuZ-zI-SS0">
@@ -54,10 +54,21 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t7v-AL-vhV">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <items>
+                                    <barButtonItem title="Share" width="323" id="b1S-0q-SRs" userLabel="Share">
+                                        <connections>
+                                            <action selector="generateMemedImage" destination="BYZ-38-t0r" id="moH-2V-O8y"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="pfP-dO-iZ7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="DlM-S8-0vt"/>
+                            <constraint firstItem="pfP-dO-iZ7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="44" id="DlM-S8-0vt"/>
                             <constraint firstItem="VK3-kA-ezS" firstAttribute="centerX" secondItem="KuZ-zI-SS0" secondAttribute="centerX" id="Efu-OK-yJx"/>
                             <constraint firstItem="DmF-Ac-rOW" firstAttribute="leading" secondItem="KuZ-zI-SS0" secondAttribute="leading" id="FtU-hx-6QA"/>
                             <constraint firstItem="VK3-kA-ezS" firstAttribute="top" secondItem="DmF-Ac-rOW" secondAttribute="bottom" constant="81" id="KzE-9T-Ucy"/>
@@ -66,18 +77,26 @@
                             <constraint firstItem="VK3-kA-ezS" firstAttribute="top" secondItem="pfP-dO-iZ7" secondAttribute="bottom" id="V2P-45-TIw"/>
                             <constraint firstItem="KuZ-zI-SS0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="80" id="W6B-WR-9aY"/>
                             <constraint firstItem="DmF-Ac-rOW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="32" id="cNN-dt-Jwa"/>
+                            <constraint firstItem="t7v-AL-vhV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="hG4-u3-7Kj"/>
+                            <constraint firstItem="t7v-AL-vhV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="iJr-xO-H0P"/>
                             <constraint firstItem="VK3-kA-ezS" firstAttribute="trailing" secondItem="pfP-dO-iZ7" secondAttribute="trailing" id="iME-Or-1vk"/>
                             <constraint firstItem="pfP-dO-iZ7" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="kdL-QB-zb2"/>
                             <constraint firstItem="VK3-kA-ezS" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="kvw-sj-rtr"/>
                             <constraint firstItem="DmF-Ac-rOW" firstAttribute="trailing" secondItem="KuZ-zI-SS0" secondAttribute="trailing" id="nCf-ar-Kxh"/>
+                            <constraint firstItem="pfP-dO-iZ7" firstAttribute="top" secondItem="t7v-AL-vhV" secondAttribute="bottom" id="yJm-dl-7jE"/>
+                            <constraint firstItem="t7v-AL-vhV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="yqs-Rn-iyR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="BottomText" destination="DmF-Ac-rOW" id="izL-hM-I7y"/>
+                        <outlet property="albumButton" destination="jqn-UT-DyS" id="FV9-Jo-15t"/>
+                        <outlet property="bottomText" destination="DmF-Ac-rOW" id="HSK-if-P1Q"/>
+                        <outlet property="bottomToolbar" destination="VK3-kA-ezS" id="TG1-L6-X7x"/>
                         <outlet property="cameraButton" destination="fap-lW-SkR" id="R7b-30-oDT"/>
                         <outlet property="imageDisplay" destination="pfP-dO-iZ7" id="Jg5-nh-pA4"/>
+                        <outlet property="share" destination="b1S-0q-SRs" id="FNx-2q-2jf"/>
                         <outlet property="topText" destination="KuZ-zI-SS0" id="bFJ-VC-DM9"/>
+                        <outlet property="topToolbar" destination="t7v-AL-vhV" id="6X4-q2-OhR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
