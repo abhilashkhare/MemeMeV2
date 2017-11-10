@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
-                                    <barButtonItem title="Camera" width="160" id="fap-lW-SkR">
+                                    <barButtonItem systemItem="camera" id="fap-lW-SkR">
                                         <inset key="largeContentSizeImageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="10000"/>
                                         <connections>
                                             <action selector="pickImageCamera:" destination="BYZ-38-t0r" id="JOi-Kb-aOq"/>
@@ -47,7 +47,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DmF-Ac-rOW">
-                                <rect key="frame" x="32" y="426" width="256" height="17"/>
+                                <rect key="frame" x="32" y="477" width="256" height="17"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="textColor"/>
@@ -58,7 +58,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <barButtonItem title="Share" width="323" id="b1S-0q-SRs" userLabel="Share">
+                                    <barButtonItem systemItem="action" id="b1S-0q-SRs" userLabel="Share">
                                         <connections>
                                             <action selector="generateMemedImage" destination="BYZ-38-t0r" id="moH-2V-O8y"/>
                                         </connections>
@@ -71,11 +71,11 @@
                             <constraint firstItem="pfP-dO-iZ7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="44" id="DlM-S8-0vt"/>
                             <constraint firstItem="VK3-kA-ezS" firstAttribute="centerX" secondItem="KuZ-zI-SS0" secondAttribute="centerX" id="Efu-OK-yJx"/>
                             <constraint firstItem="DmF-Ac-rOW" firstAttribute="leading" secondItem="KuZ-zI-SS0" secondAttribute="leading" id="FtU-hx-6QA"/>
-                            <constraint firstItem="VK3-kA-ezS" firstAttribute="top" secondItem="DmF-Ac-rOW" secondAttribute="bottom" constant="81" id="KzE-9T-Ucy"/>
                             <constraint firstItem="pfP-dO-iZ7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="L0C-Za-NLi"/>
                             <constraint firstItem="VK3-kA-ezS" firstAttribute="leading" secondItem="pfP-dO-iZ7" secondAttribute="leading" id="L0z-hC-5pS"/>
                             <constraint firstItem="VK3-kA-ezS" firstAttribute="top" secondItem="pfP-dO-iZ7" secondAttribute="bottom" id="V2P-45-TIw"/>
                             <constraint firstItem="KuZ-zI-SS0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="80" id="W6B-WR-9aY"/>
+                            <constraint firstItem="VK3-kA-ezS" firstAttribute="top" secondItem="DmF-Ac-rOW" secondAttribute="bottom" constant="30" id="b9X-rx-cts"/>
                             <constraint firstItem="DmF-Ac-rOW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="32" id="cNN-dt-Jwa"/>
                             <constraint firstItem="t7v-AL-vhV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="hG4-u3-7Kj"/>
                             <constraint firstItem="t7v-AL-vhV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="iJr-xO-H0P"/>

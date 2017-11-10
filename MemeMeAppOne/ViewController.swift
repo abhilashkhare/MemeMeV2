@@ -21,12 +21,12 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var topToolbar: UIToolbar!
     @IBOutlet weak var bottomToolbar: UIToolbar!
     
+    var savedMeme : UIImage!
     let memeTextAttribute : [String : Any] = [
    
-    // MARK: TODO - need improvement, black outline, white text
+   
          NSAttributedStringKey.strokeColor.rawValue : UIColor.black,
          NSAttributedStringKey.strokeWidth.rawValue : NSNumber(value : -5.0),
-        //  NSAttributedStringKey.backgroundColor.rawValue : UIColor.black,
         NSAttributedStringKey.foregroundColor.rawValue : UIColor.white,
         NSAttributedStringKey.font.rawValue : UIFont.init(name: "HelveticaNeue-CondensedBlack", size: 20)!
     ]
@@ -35,8 +35,8 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        topText.text = "TOP"        // MARK: TODO - move to somewhere more appropriate
-        bottomText.text = "BOTTOM"  // MARK: TODO - move to somewhere more appropriate
+        topText.text = "TOP"
+        bottomText.text = "BOTTOM"
         topText.defaultTextAttributes = memeTextAttribute
         bottomText.defaultTextAttributes = memeTextAttribute
         topText.textAlignment = .center
@@ -66,7 +66,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     @objc func keyboardWillShow(notification : NSNotification)
     {
-        if(bottomText.isFirstResponder == true)
+        if(bottomText.isFirstResponder)
         {
         let keyboardSize = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue
        self.view.frame.origin.y -= (keyboardSize?.cgRectValue.height)!
@@ -78,8 +78,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     {
         if(bottomText.isFirstResponder==true)
         {
-    let keyboardSize = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue
-    self.view.frame.origin.y += (keyboardSize?.cgRectValue.height)!
+            self.view.frame.origin.y = 0
         }
     }
   
@@ -89,20 +88,32 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         dismiss(animated: true, completion: nil)
     }
 
+    func pick(imagePickerValue: UIImagePickerController)
+    {
+        if(imagePickerValue.sourceType ==  .camera)
+        {
+            imagePickerValue.delegate = self
+            present(imagePickerValue, animated: true, completion: nil)
+        }
+        else
+            if (imagePickerValue.sourceType == .photoLibrary) {
+                imagePickerValue.delegate = self
+                present(imagePickerValue, animated: true, completion: nil)
+        }
+    }
+    
     @IBAction func pickImageAlbum(_ sender: Any) {
         let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
+        pick(imagePickerValue: imagePicker)
   
     }
     
     
     @IBAction func pickImageCamera(_ sender: Any) {
         let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
         imagePicker.sourceType = .camera
-        present(imagePicker, animated: true, completion: nil)
+        pick(imagePickerValue:  imagePicker)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -118,11 +129,12 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
 
     
-  //  func save(){
-        
-    //    let meme = Meme(topTextField : topText.text!, bottomTextField : bottomText.text!, originalimage : imageDisplay.image!, memedImage : generateMemedImage()!)
-   //}
+    func save(){
+   
+        let meme = Meme(topTextField : topText, bottomTextField : bottomText, originalimage : imageDisplay.image, memedImage : savedMeme)
+    }
 
+    
     @IBAction func generateMemedImage()  {
         
         // TODO: Hide toolbar and navbar
@@ -136,14 +148,13 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         self.share.isEnabled = false
         self.share.tintColor = UIColor.clear
         
-        
-        
+  
         // Render view to an image
         UIGraphicsBeginImageContext(self.view.frame.size)
         view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        
+        savedMeme = memedImage
         // TODO: Show toolbar and navbar
         
         self.albumButton.isEnabled = true
@@ -157,15 +168,16 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         let ac : UIActivityViewController = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
         self.present(ac, animated: true, completion: nil)
    
-       // ac.completionWithItemsHandler =
-         //   {
-           //     (activityType,completed,items,errors) in
-             //   if(completed)
-               // {
-                 //print ("shared")
-                //}
+        ac.completionWithItemsHandler =
+            {
+                (activityType,completed,items,errors) in
+                if(completed)
+                {
+                 self.save()
+                }
         
-       //     }
+            }
+     
     
     }
     
