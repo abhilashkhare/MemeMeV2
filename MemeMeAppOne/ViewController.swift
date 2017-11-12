@@ -31,18 +31,20 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         NSAttributedStringKey.font.rawValue : UIFont.init(name: "HelveticaNeue-CondensedBlack", size: 20)!
     ]
     
+    func configText(textField : UITextField)
+    {
+        textField.defaultTextAttributes = memeTextAttribute
+        textField.textAlignment = .center
+        textField.delegate = self
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         topText.text = "TOP"
         bottomText.text = "BOTTOM"
-        topText.defaultTextAttributes = memeTextAttribute
-        bottomText.defaultTextAttributes = memeTextAttribute
-        topText.textAlignment = .center
-        bottomText.textAlignment = .center
-        topText.delegate = self
-        bottomText.delegate = self
+        configText(textField: topText)
+        configText(textField: bottomText)
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -68,8 +70,10 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     {
         if(bottomText.isFirstResponder)
         {
-        let keyboardSize = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue
+          
+        let keyboardSize = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue
        self.view.frame.origin.y -= (keyboardSize?.cgRectValue.height)!
+       
         }
     }
 
@@ -78,7 +82,9 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     {
         if(bottomText.isFirstResponder==true)
         {
+          
             self.view.frame.origin.y = 0
+        
         }
     }
   
@@ -88,32 +94,23 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         dismiss(animated: true, completion: nil)
     }
 
-    func pick(imagePickerValue: UIImagePickerController)
+   func configPickImage(sourceType: UIImagePickerControllerSourceType)
     {
-        if(imagePickerValue.sourceType ==  .camera)
-        {
-            imagePickerValue.delegate = self
-            present(imagePickerValue, animated: true, completion: nil)
-        }
-        else
-            if (imagePickerValue.sourceType == .photoLibrary) {
-                imagePickerValue.delegate = self
-                present(imagePickerValue, animated: true, completion: nil)
-        }
+          let imagePicker = UIImagePickerController()
+            imagePicker.sourceType = sourceType
+           imagePicker.delegate = self
+           present(imagePicker, animated: true, completion: nil)
+
     }
     
-    @IBAction func pickImageAlbum(_ sender: Any) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        pick(imagePickerValue: imagePicker)
+    @IBAction func pickImagePhoto(_ sender: Any) {
+     configPickImage(sourceType: .photoLibrary)
   
     }
     
     
     @IBAction func pickImageCamera(_ sender: Any) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .camera
-        pick(imagePickerValue:  imagePicker)
+        configPickImage(sourceType: .camera)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -130,24 +127,34 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
 
     
     func save(){
-   
         let meme = Meme(topTextField : topText, bottomTextField : bottomText, originalimage : imageDisplay.image, memedImage : savedMeme)
+  
     }
 
+    func configValueBarButton(textField : UIBarButtonItem, value : Bool, color : UIColor)
+    {
+        
+        textField.isEnabled = value
+        textField.tintColor = color
+    }
+    
+    func configToolbar(toolbar : UIToolbar, value : Bool)
+    {
+        toolbar.isHidden = value
+    }
     
     @IBAction func generateMemedImage()  {
         
         // TODO: Hide toolbar and navbar
    
-        self.albumButton.isEnabled = false
-        let origColor:UIColor! = self.albumButton.tintColor
-        self.albumButton.tintColor = UIColor.clear
-        self.cameraButton.tintColor = UIColor.clear
-        self.topToolbar.isHidden = true
-        self.bottomToolbar.isHidden = true
-        self.share.isEnabled = false
-        self.share.tintColor = UIColor.clear
+        configValueBarButton(textField: albumButton, value: false, color: UIColor.clear)
+        configValueBarButton(textField: cameraButton, value: false, color: UIColor.clear)
+        configValueBarButton(textField: share, value: false, color: UIColor.clear)
+        configToolbar(toolbar: topToolbar, value: true)
+        configToolbar(toolbar: bottomToolbar, value: true)
         
+        let origColor:UIColor! = self.albumButton.tintColor
+      
   
         // Render view to an image
         UIGraphicsBeginImageContext(self.view.frame.size)
@@ -157,17 +164,16 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         savedMeme = memedImage
         // TODO: Show toolbar and navbar
         
-        self.albumButton.isEnabled = true
-        self.albumButton.tintColor = origColor
-        self.cameraButton.tintColor = origColor
-        self.topToolbar.isHidden = false
-        self.bottomToolbar.isHidden = false
-        self.share.isEnabled = true
-        self.share.tintColor = origColor
-      
+        configValueBarButton(textField: albumButton, value: true, color: origColor)
+        configValueBarButton(textField: cameraButton, value: true, color: origColor)
+        configValueBarButton(textField: share, value: true, color: origColor)
+        
+        configToolbar(toolbar: topToolbar, value: false)
+        configToolbar(toolbar: bottomToolbar, value: false)
+       
         let ac : UIActivityViewController = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
         self.present(ac, animated: true, completion: nil)
-   
+        
         ac.completionWithItemsHandler =
             {
                 (activityType,completed,items,errors) in
