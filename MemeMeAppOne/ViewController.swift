@@ -31,20 +31,18 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         NSAttributedStringKey.font.rawValue : UIFont.init(name: "HelveticaNeue-CondensedBlack", size: 20)!
     ]
     
-    func configText(textField : UITextField)
+    func configText(textField : UITextField, text : String)
     {
         textField.defaultTextAttributes = memeTextAttribute
         textField.textAlignment = .center
         textField.delegate = self
+        textField.text = text
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        topText.text = "TOP"
-        bottomText.text = "BOTTOM"
-        configText(textField: topText)
-        configText(textField: bottomText)
+        configText(textField: topText,text :"TOP")
+        configText(textField: bottomText,text : "BOTTOM")
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -143,17 +141,23 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         toolbar.isHidden = value
     }
     
-    @IBAction func generateMemedImage()  {
+    @IBAction func shareMeme()
+    {
+        savedMeme = generateMemedImage()
+    }
+    
+    func generateMemedImage() -> UIImage {
         
         // TODO: Hide toolbar and navbar
-   
+       
         configValueBarButton(textField: albumButton, value: false, color: UIColor.clear)
         configValueBarButton(textField: cameraButton, value: false, color: UIColor.clear)
         configValueBarButton(textField: share, value: false, color: UIColor.clear)
         configToolbar(toolbar: topToolbar, value: true)
         configToolbar(toolbar: bottomToolbar, value: true)
+       // let origColor:UIColor! = self.albumButton.tintColor
+        //print(origColor)
         
-        let origColor:UIColor! = self.albumButton.tintColor
       
   
         // Render view to an image
@@ -161,12 +165,12 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        savedMeme = memedImage
+       // savedMeme = memedImage
         // TODO: Show toolbar and navbar
-        
-        configValueBarButton(textField: albumButton, value: true, color: origColor)
-        configValueBarButton(textField: cameraButton, value: true, color: origColor)
-        configValueBarButton(textField: share, value: true, color: origColor)
+         cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        configValueBarButton(textField: albumButton, value: true, color: self.view.tintColor)
+        configValueBarButton(textField: cameraButton, value: cameraButton.isEnabled, color: self.view.tintColor)
+        configValueBarButton(textField: share, value: true, color: self.view.tintColor)
         
         configToolbar(toolbar: topToolbar, value: false)
         configToolbar(toolbar: bottomToolbar, value: false)
@@ -183,8 +187,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 }
         
             }
-     
-    
+     return memedImage
     }
     
 }
