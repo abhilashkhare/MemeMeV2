@@ -7,29 +7,38 @@
 //
 
 import UIKit
+import Foundation
 
-class MemeMeCollectionViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+class MemeMeCollectionViewController: UICollectionViewController {
+    
+    var  memes = [Meme]()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        memes = appDelegate.memes
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.memes.count
     }
-    */
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MemeCollectionViewCell", for: indexPath)
+            as!  MemeCollectionViewCell
+        let meme = self.memes[(indexPath as NSIndexPath).row]
+        
+        cell.memeImage.image = meme.memedImage
+        cell.top.text = meme.topTextField.text
+        cell.bottom.text = meme.bottomTextField.text
+    
+        return cell
+        
+        
+    }
+    
+    
 
 }
